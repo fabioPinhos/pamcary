@@ -33,14 +33,17 @@ public class ClienteDTO {
 
     @ApiModelProperty(notes = "CPF")
     @CPF(message = "Informe um CPF válido")
+    @NotEmpty(message = "Campo CPF é obrigatório")
     private String cpf;
 
     @ApiModelProperty(notes = "Data de nascimento")
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
+    @NotEmpty(message = "Campo data de nascimento é obrigatório")
     private LocalDate dataNascimento;
 
     @ApiModelProperty(notes = "Sexo")
+    @NotEmpty(message = "Campo sexo é obrigatório")
     private String sexo;
 
 }
