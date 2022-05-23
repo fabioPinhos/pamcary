@@ -39,7 +39,6 @@ public class ClienteDTO {
     @ApiModelProperty(notes = "Data de nascimento")
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
-    @NotEmpty(message = "Campo data de nascimento é obrigatório")
     private LocalDate dataNascimento;
 
     @ApiModelProperty(notes = "Sexo")
