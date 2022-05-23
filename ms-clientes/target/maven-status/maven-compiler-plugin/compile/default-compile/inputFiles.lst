@@ -1,0 +1,15 @@
+C:\Users\009532631\IdeaProjects\pamcary\ms-clientes\ms-clientes\src\main\java\br\com\pancary\clientes\exception\RegraNegocioException.java
+C:\Users\009532631\IdeaProjects\pamcary\ms-clientes\ms-clientes\src\main\java\br\com\pancary\clientes\MsClientesApplication.java
+C:\Users\009532631\IdeaProjects\pamcary\ms-clientes\ms-clientes\src\main\java\br\com\pancary\clientes\config\SwaggerConfig.java
+C:\Users\009532631\IdeaProjects\pamcary\ms-clientes\ms-clientes\src\main\java\br\com\pancary\clientes\config\ModelMapperConfig.java
+C:\Users\009532631\IdeaProjects\pamcary\ms-clientes\ms-clientes\src\main\java\br\com\pancary\clientes\dto\ClienteDTO.java
+C:\Users\009532631\IdeaProjects\pamcary\ms-clientes\ms-clientes\src\main\java\br\com\pancary\clientes\handlers\RestTemplateResponseErrorHandler.java
+C:\Users\009532631\IdeaProjects\pamcary\ms-clientes\ms-clientes\src\main\java\br\com\pancary\clientes\controllers\ClienteController.java
+C:\Users\009532631\IdeaProjects\pamcary\ms-clientes\ms-clientes\src\main\java\br\com\pancary\clientes\handlers\ApiErrors.java
+C:\Users\009532631\IdeaProjects\pamcary\ms-clientes\ms-clientes\src\main\java\br\com\pancary\clientes\exception\ClienteNotFoundException.java
+C:\Users\009532631\IdeaProjects\pamcary\ms-clientes\ms-clientes\src\main\java\br\com\pancary\clientes\service\impl\ClienteServiceImpl.java
+C:\Users\009532631\IdeaProjects\pamcary\ms-clientes\ms-clientes\src\main\java\br\com\pancary\clientes\model\entities\Cliente.java
+C:\Users\009532631\IdeaProjects\pamcary\ms-clientes\ms-clientes\src\main\java\br\com\pancary\clientes\bean\Cliente.java
+C:\Users\009532631\IdeaProjects\pamcary\ms-clientes\ms-clientes\src\main\java\br\com\pancary\clientes\model\repositories\ClientesRepository.java
+C:\Users\009532631\IdeaProjects\pamcary\ms-clientes\ms-clientes\src\main\java\br\com\pancary\clientes\service\ClienteService.java
+C:\Users\009532631\IdeaProjects\pamcary\ms-clientes\ms-clientes\src\main\java\br\com\pancary\clientes\controllers\ApplicationControllerAdvice.java
