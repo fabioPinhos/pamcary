@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @AllArgsConstructor
@@ -39,6 +40,7 @@ public class ClienteDTO {
     @ApiModelProperty(notes = "Data de nascimento")
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
+    @NotNull(message = "Data de nascimento é obrigatório")
     private LocalDate dataNascimento;
 
     @ApiModelProperty(notes = "Sexo")
