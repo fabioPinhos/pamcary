@@ -18,10 +18,10 @@ public class Cliente {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "nome", length = 100)
+    @Column(name = "nome", length = 40)
     private String nome;
 
-    @Column(name = "cpf", length = 30)
+    @Column(name = "cpf")
     private String cpf;
 
     @Column(name = "dataNascimento")

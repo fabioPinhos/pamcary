@@ -30,6 +30,7 @@ public class ClienteDTO {
 
     @ApiModelProperty(notes = "Nome")
     @NotEmpty(message = "Campo nome é obrigatório")
+
     private String nome;
 
     @ApiModelProperty(notes = "CPF")
