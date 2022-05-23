@@ -15,7 +15,7 @@ Para iniciar o desenvolvimento, é necessário clonar o projeto do GitHub num di
 
 ```shell
 cd "diretorio de sua preferencia"
-https://github.com/fabioPinhos/testePancary.git
+https://github.com/fabioPinhos/pamcary.git
 ```
 
 Importar no IntelliJ/Eclipse o projeto :
