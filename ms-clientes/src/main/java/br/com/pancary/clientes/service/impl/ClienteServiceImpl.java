@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -136,13 +138,12 @@ public class ClienteServiceImpl implements ClienteService {
     public Iterable<ClienteDTO> buscarClientePorCPF(String cpf){
 
         Iterable<Cliente> byCpf = repository.findByCpfContains(cpf);
-        Iterable<ClienteDTO> clienteDTOS = null;
 
+        List<ClienteDTO> clienteDTOS = new ArrayList();
 
         if(byCpf != null && byCpf.iterator().hasNext()){
-            clienteDTOS = this.modelMapper.map(byCpf, new TypeToken<Iterable<ClienteDTO>>() {}.getType());
+            byCpf.forEach(entity -> clienteDTOS.add(modelMapper.map(entity, ClienteDTO.class)));
         }
-
 
         return clienteDTOS;
     }
@@ -154,7 +155,7 @@ public class ClienteServiceImpl implements ClienteService {
         List<ClienteDTO> clientesDtos = null;
 
         if(clientes != null && clientes.iterator().hasNext()){
-            clientesDtos = this.modelMapper.map(clientes, new TypeToken<Iterable<ClienteDTO>>() {}.getType());
+            clientes.forEach(entity -> clientesDtos.add(modelMapper.map(entity, ClienteDTO.class)));
         }
 
         return clientesDtos;

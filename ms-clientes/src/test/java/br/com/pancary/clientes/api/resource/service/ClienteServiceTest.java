@@ -101,14 +101,17 @@ public class ClienteServiceTest {
         ClienteDTO clienteBuild1 = ClienteDTO.builder().nome("Fabio").cpf("19288461816").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
         ClienteDTO clienteBuild2 = ClienteDTO.builder().nome("Fabio").cpf("19288461817").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
 
-        ClienteDTO clienteSalvo = clienteService.salvar(clienteBuild);
-        ClienteDTO clienteSalvo1 = clienteService.salvar(clienteBuild1);
-        ClienteDTO clienteSalvo2 = clienteService.salvar(clienteBuild2);
+        clienteService.salvar(clienteBuild);
+        clienteService.salvar(clienteBuild1);
+        clienteService.salvar(clienteBuild2);
 
-        Iterable<ClienteDTO> clientes = clienteService.buscarClientePorCPF(clienteBuild2.getCpf());
+        Iterable<ClienteDTO> clienteDTOIterable = clienteService.buscarClientePorCPF(clienteBuild2.getCpf());
 
-        if(clientes.iterator().hasNext()){
-            assertEquals(clientes.iterator().next().getCpf(), "19288461817");
+        if(clienteDTOIterable.iterator().hasNext()){
+
+            ClienteDTO clienteDTO = clienteDTOIterable.iterator().next();
+
+            assertEquals(clienteDTO.getCpf(), "19288461817");
         }else{
             assertTrue(false);
         }
