@@ -10,9 +10,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -30,8 +32,7 @@ public class ClienteServiceTest {
     @Autowired
     ClientesRepository repository;
 
-    @Mock
-    ModelMapper modelMapper;
+    ModelMapper modelMapper = new ModelMapper();
 
     @BeforeEach
     public void setUp(){
@@ -61,14 +62,21 @@ public class ClienteServiceTest {
     public void saveClienteServiceTest(){
 
         ClienteDTO dto = ClienteDTO.builder().nome("Fabio").cpf("19288461817").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
-        Cliente clienteBuild = Cliente.builder().id(1).nome("Fabio").cpf("19288461817").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
 
-        ClienteDTO clienteSalvo = clienteService.salvar(dto);
+//        Mockito.when(clienteService.salvar(dto)).thenReturn(
+//                ClienteDTO.builder()
+//                        .id(1)
+//                        .nome("Fabio")
+//                        .cpf("19288461817")
+//                        .sexo("masculino")
+//                        .dataNascimento(LocalDate.parse("1977-08-10")).build());
 
-        assertNotNull(clienteSalvo.getId());
-        assertEquals(clienteSalvo.getNome(), "Fabio");
-        assertEquals(clienteSalvo.getSexo(), "masculino");
-        assertEquals(clienteSalvo.getCpf(), "19288461817");
+        ClienteDTO clienteDTO = clienteService.salvar(dto);
+
+        assertNotNull(clienteDTO.getId());
+        assertEquals(clienteDTO.getNome(), "Fabio");
+        assertEquals(clienteDTO.getSexo(), "masculino");
+        assertEquals(clienteDTO.getCpf(), "19288461817");
 
     }
 

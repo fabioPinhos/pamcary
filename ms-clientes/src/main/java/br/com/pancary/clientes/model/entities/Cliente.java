@@ -30,7 +30,4 @@ public class Cliente {
     @Column(name = "sexo")
     private String sexo;
 
-
-
-
 }
