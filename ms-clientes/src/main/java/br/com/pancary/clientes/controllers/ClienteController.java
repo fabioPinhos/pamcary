@@ -24,8 +24,7 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private ModelMapper modelMapper = new ModelMapper();
 
     @GetMapping("/filtro/{numeroPagina}/{qtdePagina}")
     @ApiOperation("Busca todos os clientes com filtro")
