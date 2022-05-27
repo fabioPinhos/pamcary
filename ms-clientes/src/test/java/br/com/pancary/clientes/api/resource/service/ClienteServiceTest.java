@@ -63,14 +63,6 @@ public class ClienteServiceTest {
 
         ClienteDTO dto = ClienteDTO.builder().nome("Fabio").cpf("19288461817").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
 
-//        Mockito.when(clienteService.salvar(dto)).thenReturn(
-//                ClienteDTO.builder()
-//                        .id(1)
-//                        .nome("Fabio")
-//                        .cpf("19288461817")
-//                        .sexo("masculino")
-//                        .dataNascimento(LocalDate.parse("1977-08-10")).build());
-
         ClienteDTO clienteDTO = clienteService.salvar(dto);
 
         assertNotNull(clienteDTO.getId());
@@ -78,29 +70,6 @@ public class ClienteServiceTest {
         assertEquals(clienteDTO.getSexo(), "masculino");
         assertEquals(clienteDTO.getCpf(), "19288461817");
 
-    }
-
-    @Test
-    @DisplayName("Deve buscar um cliente por CPF")
-    public void buscarClientePorCPFServiceTest(){
-
-        ClienteDTO clienteBuild = ClienteDTO.builder().id(1).nome("Fabio").cpf("19288461815").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
-        ClienteDTO clienteBuild1 = ClienteDTO.builder().id(1).nome("Fabio").cpf("19288461816").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
-        ClienteDTO clienteBuild2 = ClienteDTO.builder().id(1).nome("Fabio").cpf("19288461817").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
-
-
-        ClienteDTO clienteSalvo = clienteService.salvar(clienteBuild);
-        ClienteDTO clienteSalvo1 = clienteService.salvar(clienteBuild1);
-        ClienteDTO clienteSalvo2 = clienteService.salvar(clienteBuild2);
-
-
-        Iterable<ClienteDTO> clientes = clienteService.buscarClientePorCPF(clienteBuild2.getCpf());
-
-        if(clientes.iterator().hasNext()){
-            assertEquals(clientes.iterator().next().getCpf(), "19288461817");
-        }else{
-            assertTrue(false);
-        }
     }
 
     @Test
@@ -120,7 +89,29 @@ public class ClienteServiceTest {
 
         Iterable<ClienteDTO> clientes = clienteService.obterTodos(clienteBuild2, 1, 1);
 
-        assertFalse(clientes.iterator().hasNext());
+        assertNull(clientes);
+
+    }
+
+    @Test
+    @DisplayName("Deve buscar um cliente por CPF")
+    public void buscarClientePorCPFServiceTest(){
+
+        ClienteDTO clienteBuild = ClienteDTO.builder().nome("Fabio").cpf("19288461815").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
+        ClienteDTO clienteBuild1 = ClienteDTO.builder().nome("Fabio").cpf("19288461816").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
+        ClienteDTO clienteBuild2 = ClienteDTO.builder().nome("Fabio").cpf("19288461817").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
+
+        ClienteDTO clienteSalvo = clienteService.salvar(clienteBuild);
+        ClienteDTO clienteSalvo1 = clienteService.salvar(clienteBuild1);
+        ClienteDTO clienteSalvo2 = clienteService.salvar(clienteBuild2);
+
+        Iterable<ClienteDTO> clientes = clienteService.buscarClientePorCPF(clienteBuild2.getCpf());
+
+        if(clientes.iterator().hasNext()){
+            assertEquals(clientes.iterator().next().getCpf(), "19288461817");
+        }else{
+            assertTrue(false);
+        }
 
     }
 
