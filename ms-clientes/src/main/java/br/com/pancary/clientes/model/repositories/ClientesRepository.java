@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface ClientesRepository extends JpaRepository<Cliente, Integer> {
 
-    public Iterable<Cliente> findByCpf(String cpf);
+    public Iterable<Cliente> findByCpfContains(String cpf);
 
 }

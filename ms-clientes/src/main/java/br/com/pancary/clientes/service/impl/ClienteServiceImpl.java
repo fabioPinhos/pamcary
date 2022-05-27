@@ -7,6 +7,7 @@ import br.com.pancary.clientes.model.entities.Cliente;
 import br.com.pancary.clientes.model.repositories.ClientesRepository;
 import br.com.pancary.clientes.service.ClienteService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
@@ -22,28 +23,43 @@ public class ClienteServiceImpl implements ClienteService {
 
     ClientesRepository repository;
 
-    public ClienteServiceImpl(ClientesRepository repository) {
+    private ModelMapper modelMapper;
+
+    public ClienteServiceImpl(ClientesRepository repository, ModelMapper modelMapper) {
         this.repository = repository;
+        this.modelMapper = modelMapper;
     }
 
     @Transactional
-    public Cliente salvar(Cliente cliente){
+    public ClienteDTO salvar(ClienteDTO cliente){
+
+        ClienteDTO clienteResponse = ClienteDTO.builder().build();
+
+        Cliente entity = modelMapper.map(cliente, Cliente.class);
 
         if(cliente != null && !cliente.getCpf().isEmpty()){
             cliente.setCpf(cliente.getCpf().replaceAll("[^0-9]", ""));
         }
 
-        Iterable<Cliente> byCpf = repository.findByCpf(cliente.getCpf());
+        Iterable<Cliente> byCpf = repository.findByCpfContains(cliente.getCpf());
+
+        Cliente save = null;
 
         if(!byCpf.iterator().hasNext()){
-            repository.save(cliente);
+            save = repository.save(entity);
         }
 
-        return cliente;
+        if (save != null && save.getId() != null) {
+            clienteResponse = this.modelMapper.map(save, ClienteDTO.class);
+        }
+
+        return clienteResponse;
     }
 
     @Transactional
-    public ResponseEntity alterar(Integer id, Cliente cliente) {
+    public ResponseEntity alterar(Integer id, ClienteDTO cliente) {
+
+        Cliente entity = modelMapper.map(cliente, Cliente.class);
 
         Optional<Cliente> clienteResp = repository.findById(id);
 
@@ -68,7 +84,7 @@ public class ClienteServiceImpl implements ClienteService {
                         cliente.setSexo(clienteExistente.getSexo());
                     }
 
-                    repository.save(cliente);
+                    repository.save(entity);
 
                     return ResponseEntity.noContent().build();
                 }).orElseGet(() -> ResponseEntity.notFound().build());
@@ -90,7 +106,9 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Iterable<Cliente> obterTodos(Cliente filtro, int numeroPagina, int qtdePagina) {
+    public Iterable<ClienteDTO> obterTodos(ClienteDTO filtro, int numeroPagina, int qtdePagina) {
+
+        Cliente entity = modelMapper.map(filtro, Cliente.class);
 
         //Filtro de pesquisa
         ExampleMatcher matcher = ExampleMatcher
@@ -98,24 +116,46 @@ public class ClienteServiceImpl implements ClienteService {
                 .withIgnoreCase()
                 .withStringMatcher( ExampleMatcher.StringMatcher.CONTAINING);
 
-        Example example = Example.of(filtro, matcher);
+        Example example = Example.of(entity, matcher);
 
         //Paginação com ordenção pelo nome
         if(qtdePagina >= 5) qtdePagina = 5;
         Pageable page = PageRequest.of(numeroPagina,qtdePagina, Sort.by("nome"));
 
-        return repository.findAll(example, page);
+        Page findAll = repository.findAll(example, page);
+        Iterable<ClienteDTO> clienteDTOS = null;
+
+        if(findAll != null && findAll.iterator().hasNext()){
+            clienteDTOS = this.modelMapper.map(findAll, new TypeToken<Iterable<ClienteDTO>>() {}.getType());
+        }
+
+        return clienteDTOS;
     }
 
     @Override
-    public Iterable<Cliente> buscarClientePorCPF(String cpf){
-        return repository.findByCpf(cpf);
+    public Iterable<ClienteDTO> buscarClientePorCPF(String cpf){
+
+        Iterable<Cliente> byCpf = repository.findByCpfContains(cpf);
+        Iterable<ClienteDTO> clienteDTOS = null;
+
+
+        if(byCpf != null && byCpf.iterator().hasNext()){
+            clienteDTOS = this.modelMapper.map(byCpf, new TypeToken<Iterable<ClienteDTO>>() {}.getType());
+        }
+
+
+        return clienteDTOS;
     }
 
     @Override
-    public List<Cliente> obterTodos() {
+    public List<ClienteDTO> obterTodos() {
 
         List<Cliente> clientes = repository.findAll();
+        List<ClienteDTO> clientesDtos = null;
 
-        return clientes;
+        if(clientes != null && clientes.iterator().hasNext()){
+            clientesDtos = this.modelMapper.map(clientes, new TypeToken<Iterable<ClienteDTO>>() {}.getType());
+        }
+
+        return clientesDtos;
     }}

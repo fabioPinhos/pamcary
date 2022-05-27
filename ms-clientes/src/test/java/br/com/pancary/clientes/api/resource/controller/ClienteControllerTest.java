@@ -21,7 +21,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -42,11 +44,9 @@ public class ClienteControllerTest {
     @DisplayName("Deve criar um cliente com sucesso.")
     public void createClienteTest() throws Exception {
 
-        ClienteDTO dto = ClienteDTO.builder().nome("Fabio").cpf("19288461817").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
+        ClienteDTO dto = ClienteDTO.builder().id(1).nome("Fabio").cpf("19288461817").sexo("masculino").dataNascimento(LocalDate.now()).build();
 
-        Cliente clienteBuild = Cliente.builder().id(1).nome("Fabio").cpf("19288461817").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
-
-        BDDMockito.given(clienteService.salvar(Mockito.any(Cliente.class))).willReturn(clienteBuild);
+        BDDMockito.given(clienteService.salvar(Mockito.any(ClienteDTO.class))).willReturn(dto);
 
         //Transforma um objeto em um JSON
         String json = new ObjectMapper().writeValueAsString(dto);
@@ -59,12 +59,11 @@ public class ClienteControllerTest {
 
         mvc
                 .perform(request)
-                .andExpect( status().is2xxSuccessful() );
-//                .andExpect( jsonPath("id").isNotEmpty() )
-//                .andExpect( jsonPath( "nome" ).value(dto.getNome()))
-//                .andExpect( jsonPath( "cpf" ).value(dto.getCpf()))
-//                .andExpect( jsonPath( "dataNascimento" ).value(dto.getDataNascimento()))
-//                .andExpect( jsonPath( "sexo" ).value(dto.getSexo()));
+                .andExpect( status().is2xxSuccessful() )
+                .andExpect( jsonPath("id").isNotEmpty() )
+                .andExpect( jsonPath( "nome" ).value(dto.getNome()))
+                .andExpect( jsonPath( "cpf" ).value(dto.getCpf()))
+                .andExpect( jsonPath( "sexo" ).value(dto.getSexo()));
 
     }
 

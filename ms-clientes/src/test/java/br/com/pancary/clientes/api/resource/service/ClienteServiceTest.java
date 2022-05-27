@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -28,9 +30,12 @@ public class ClienteServiceTest {
     @Autowired
     ClientesRepository repository;
 
+    @Mock
+    ModelMapper modelMapper;
+
     @BeforeEach
     public void setUp(){
-        this.clienteService =  new ClienteServiceImpl(repository);
+        this.clienteService =  new ClienteServiceImpl(repository, modelMapper);
     }
 
     @Test
@@ -58,7 +63,7 @@ public class ClienteServiceTest {
         ClienteDTO dto = ClienteDTO.builder().nome("Fabio").cpf("19288461817").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
         Cliente clienteBuild = Cliente.builder().id(1).nome("Fabio").cpf("19288461817").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
 
-        Cliente clienteSalvo = clienteService.salvar(clienteBuild);
+        ClienteDTO clienteSalvo = clienteService.salvar(dto);
 
         assertNotNull(clienteSalvo.getId());
         assertEquals(clienteSalvo.getNome(), "Fabio");
@@ -71,17 +76,17 @@ public class ClienteServiceTest {
     @DisplayName("Deve buscar um cliente por CPF")
     public void buscarClientePorCPFServiceTest(){
 
-        Cliente clienteBuild = Cliente.builder().id(1).nome("Fabio").cpf("19288461815").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
-        Cliente clienteBuild1 = Cliente.builder().id(1).nome("Fabio").cpf("19288461816").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
-        Cliente clienteBuild2 = Cliente.builder().id(1).nome("Fabio").cpf("19288461817").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
+        ClienteDTO clienteBuild = ClienteDTO.builder().id(1).nome("Fabio").cpf("19288461815").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
+        ClienteDTO clienteBuild1 = ClienteDTO.builder().id(1).nome("Fabio").cpf("19288461816").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
+        ClienteDTO clienteBuild2 = ClienteDTO.builder().id(1).nome("Fabio").cpf("19288461817").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
 
 
-        Cliente clienteSalvo = clienteService.salvar(clienteBuild);
-        Cliente clienteSalvo1 = clienteService.salvar(clienteBuild1);
-        Cliente clienteSalvo2 = clienteService.salvar(clienteBuild2);
+        ClienteDTO clienteSalvo = clienteService.salvar(clienteBuild);
+        ClienteDTO clienteSalvo1 = clienteService.salvar(clienteBuild1);
+        ClienteDTO clienteSalvo2 = clienteService.salvar(clienteBuild2);
 
 
-        Iterable<Cliente> clientes = clienteService.buscarClientePorCPF(clienteBuild2.getCpf());
+        Iterable<ClienteDTO> clientes = clienteService.buscarClientePorCPF(clienteBuild2.getCpf());
 
         if(clientes.iterator().hasNext()){
             assertEquals(clientes.iterator().next().getCpf(), "19288461817");
@@ -94,18 +99,18 @@ public class ClienteServiceTest {
     @DisplayName("Deve remover um cliente")
     public void removerClienteServiceTest() {
 
-        Cliente clienteBuild = Cliente.builder().id(1).nome("Fabio").cpf("19288461815").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
-        Cliente clienteBuild1 = Cliente.builder().id(1).nome("Fabio").cpf("19288461816").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
-        Cliente clienteBuild2 = Cliente.builder().id(1).nome("Fabio").cpf("19288461817").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
+        ClienteDTO clienteBuild = ClienteDTO.builder().id(1).nome("Fabio").cpf("19288461815").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
+        ClienteDTO clienteBuild1 = ClienteDTO.builder().id(1).nome("Fabio").cpf("19288461816").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
+        ClienteDTO clienteBuild2 = ClienteDTO.builder().id(1).nome("Fabio").cpf("19288461817").sexo("masculino").dataNascimento(LocalDate.parse("1977-08-10")).build();
 
 
-        Cliente clienteSalvo = clienteService.salvar(clienteBuild);
-        Cliente clienteSalvo1 = clienteService.salvar(clienteBuild1);
-        Cliente clienteSalvo2 = clienteService.salvar(clienteBuild2);
+        ClienteDTO clienteSalvo = clienteService.salvar(clienteBuild);
+        ClienteDTO clienteSalvo1 = clienteService.salvar(clienteBuild1);
+        ClienteDTO clienteSalvo2 = clienteService.salvar(clienteBuild2);
 
         clienteService.remover(clienteBuild2.getId());
 
-        Iterable<Cliente> clientes = clienteService.obterTodos(clienteBuild2, 1, 1);
+        Iterable<ClienteDTO> clientes = clienteService.obterTodos(clienteBuild2, 1, 1);
 
         assertFalse(clientes.iterator().hasNext());
 

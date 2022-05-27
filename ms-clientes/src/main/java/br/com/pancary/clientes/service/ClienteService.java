@@ -11,17 +11,17 @@ import java.util.Optional;
 public interface ClienteService {
 
     //Obter Clientes
-    public Iterable<Cliente> obterTodos(Cliente filtro, int numeroPagina, int qtdePagina);
+    public Iterable<ClienteDTO> obterTodos(ClienteDTO filtro, int numeroPagina, int qtdePagina);
 
-    Iterable<Cliente> buscarClientePorCPF(String cpf);
+    Iterable<ClienteDTO> buscarClientePorCPF(String cpf);
 
     //Obter Clientes
-    List<Cliente> obterTodos();
+    List<ClienteDTO> obterTodos();
 
     //Salvar cliente
-    Cliente salvar(Cliente cliente);
+    ClienteDTO salvar(ClienteDTO cliente);
 
-    ResponseEntity alterar(Integer id, Cliente cliente);
+    ResponseEntity alterar(Integer id, ClienteDTO cliente);
 
     ResponseEntity remover(Integer id);
 
